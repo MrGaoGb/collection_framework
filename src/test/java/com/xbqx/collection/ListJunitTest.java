@@ -1,6 +1,5 @@
 package com.xbqx.collection;
 
-
 import com.xbqx.collection.list.ArrayList;
 import com.xbqx.collection.list.LinkedList;
 import com.xbqx.collection.list.List;
@@ -12,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Unit test for simple App.
  */
 public class ListJunitTest {
-
 
     @Test
     public void testArrayList() {
@@ -77,5 +75,11 @@ public class ListJunitTest {
         list.forEach(System.out::println);
     }
 
+    /**
+     * 案例描述：双向链表操作
+     */
+    @Test
+    public void testDoubleLinkedList() {
 
+    }
 }
