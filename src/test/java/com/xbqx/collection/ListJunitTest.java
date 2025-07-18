@@ -215,10 +215,145 @@ public class ListJunitTest {
      */
 
     /**
+     * 定义一个双向链表节点
+     */
+    static class ListNode {
+        ListNode pre;
+        String val;
+        ListNode next;
+
+        public ListNode(ListNode pre, String val, ListNode next) {
+            this.pre = pre;
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    /**
      * 案例描述：双向链表操作
      */
     @Test
     public void testDoubleLinkedList() {
-        System.out.println("双向链表操作");
+        ListNode node1 = new ListNode(null, "A", null);
+        ListNode node2 = new ListNode(null, "B", null);
+        ListNode node3 = new ListNode(null, "C", null);
+        ListNode node4 = new ListNode(null, "D", null);
+
+        // (手动创建链表将所有节点连接起来)
+        //// A -> B && B -> A
+        //node1.next = node2;
+        //node2.pre = node1;
+        //// B -> C && C -> B
+        //node2.next = node3;
+        //node3.pre = node2;
+        //// C -> D && D -> C
+        //node3.next = node4;
+        //node4.pre = node3;
+
+        // 创建一个head和tail节点,将上述节点连接起来
+        ListNode head = node1;
+        ListNode tail = node1;
+
+        tail.next = node2;
+        node2.pre = tail;
+        tail = node2;// 移动尾节点
+
+        tail.next = node3;
+        node3.pre = tail;
+        tail = node3;
+
+        tail.next = node4;
+        node4.pre = tail;
+        tail = node4;
+
+        // 尾插法：添加一个节点 E
+        ListNode nodeE = new ListNode(null, "E", null);
+        tail.next = nodeE;
+        nodeE.pre = tail;
+        tail = nodeE;
+        assertEquals("E", tail.val, "当前tail节点的值期望是E");
+
+        // 替换node A
+        ListNode nodeF = new ListNode(null, "F", null);
+        // A->B
+        ListNode next = node1.next;
+        head = nodeF;
+        nodeF.next = next;
+        next.pre = nodeF;
+        node1.next = null;
+
+        // 替换node C
+        //replaceMiddleNodeC(node3);
+
+        // 替换node E
+        ListNode nodeG = new ListNode(null, "G", null);
+        // E的前一个节点 D
+        ListNode pre = tail.pre;
+        pre.next = nodeG;
+        nodeG.pre = pre;
+        tail = nodeG;
+        assertEquals("G", tail.val, "当前tail节点的值期望是G");
+
+        // --从前往后遍历
+        printListNodeByHead(head);
+        // --从后往前遍历
+        printListNodeByTail(tail);
+    }
+
+    private void replaceHeadNodeA(ListNode nodeA) {
+
+    }
+
+    /**
+     * 替换中间节点C
+     *
+     * @param nodeC
+     */
+    private void replaceMiddleNodeC(ListNode nodeC) {
+        // 中间节点C 插入一个节点 F
+        ListNode nodeF = new ListNode(null, "F", null);
+        // A -> B -> C -> D -> E
+        // next代表C的下一个节点，也就是D
+        ListNode next = nodeC.next;
+        // C的pre节点，也就是B
+        ListNode pre = nodeC.pre;
+        // B -> F
+        pre.next = nodeF;
+        // F -> B
+        nodeF.pre = pre;
+        // F -> D
+        nodeF.next = next;
+        // D -> F
+        next.pre = nodeF;
+
+        // TODO 断开链表节点C前后的引用，如果没有断开，虽然上述B<->F,F<->D,已经绕开了节点C,但是节点C的引用还存在，那么C的引用就会造成内存泄漏
+        nodeC.pre = null;
+        nodeC.next = null;
+    }
+
+    /**
+     * 从头节点开始遍历
+     *
+     * @param node
+     */
+    private void printListNodeByHead(ListNode node) {
+        System.out.println("=========从前往后遍历(Start)=========");
+        for (ListNode dummyNode = node; dummyNode != null; dummyNode = dummyNode.next) {
+            System.out.println(dummyNode.val);
+        }
+        System.out.println("=========从前往后遍历(End)=========");
+    }
+
+    /**
+     * 从尾节点开始遍历
+     *
+     * @param node
+     */
+    private void printListNodeByTail(ListNode node) {
+        System.out.println("=========从后往前遍历(Start)=========");
+        for (ListNode dummyNode = node; dummyNode != null; dummyNode = dummyNode.pre) {
+            System.out.println(dummyNode.val);
+        }
+        System.out.println("=========从后往前遍历(End)=========");
     }
 }
