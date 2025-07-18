@@ -80,6 +80,6 @@ public class ListJunitTest {
      */
     @Test
     public void testDoubleLinkedList() {
-
+        System.out.println("双向链表操作");
     }
 }
